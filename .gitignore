@@ -17,4 +17,4 @@ temp/
 .env
 
 # Ignore word files
-.docx
+*.docx
