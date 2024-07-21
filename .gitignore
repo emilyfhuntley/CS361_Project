@@ -1,0 +1,20 @@
+# Ignore all .log files
+*.log
+
+# Ignore all .tmp files
+*.tmp
+
+# Ignore all files in the logs/ directory
+logs/
+
+# Ignore a specific file
+secret.txt
+
+# Ignore all files in a directory named temp
+temp/
+
+# Ignore all .env files
+.env
+
+# Ignore word files
+.docx
