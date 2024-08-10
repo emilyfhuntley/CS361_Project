@@ -24,6 +24,7 @@ def fetch_random_fact():
 
 def run_fact_service():
     print("Fact generator service starting...\n")
+    print("Fact generator service listening...\n")
     while True:
         time.sleep(1)
 
@@ -37,7 +38,8 @@ def run_fact_service():
             with open(FACT_GENERATOR_FILE, "w") as file:
                 file.write(fact)  # Write the fact as the response
             print(f"Sending fact to UI: {fact}\n")
-            print("Fact generator service running...\n")
+            print("-----------------------------------------")
+            print("Fact generator service listening...\n")
 
 if __name__ == "__main__":
     run_fact_service()

@@ -37,7 +37,7 @@ port = 5225
 port_str = str(port)
 # bind the socket to a port number
 socket.bind("tcp://*:" + port_str)
-print("Server ready to receive at port " + port_str + "...")
+print("Poem generator service ready to receive at port " + port_str + "...")
 
 while True:
     # receive request from client
@@ -54,6 +54,9 @@ while True:
         # as long as topic isn't rg, set the request message for
         elif topic.lower() != 'rg':
             prompt = "write a poem about" + topic + "in the style of " + style
+            print("New poem request received...")
+            print("Topic:", topic)
+            print("Style:", style)
 
         # if the client wants a different poem, set request to have the same parameters
         else:
@@ -67,9 +70,10 @@ while True:
 
         # send message back to client
         socket.send_string(response.text)
+        print("\nGenerated poem:")
+        print(response.text)
+        print("---------------------------------------------")
+        print("Poem generator service ready to receive at port " + port_str + "...")
 
 # exit the server program
 context.destroy()
-
-
-

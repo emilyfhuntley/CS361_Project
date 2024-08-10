@@ -8,6 +8,9 @@ def initialize_facts_file():
     if not os.path.exists(FACTS_FILE):
         with open(FACTS_FILE, "w") as f:
             pass  # Create an empty file
+    else:
+        with open(FACTS_FILE, "w") as f:
+            f.truncate(0)
 
 def save_fact(fact):
     """Save a fact to the facts file."""
@@ -31,6 +34,11 @@ def delete_fact(index):
         return deleted_fact
     return None
 
+def clear_facts():
+    """Clears all saved facts."""
+    with open(FACTS_FILE, "w") as f:
+        f.truncate(0)
+
 def handle_request(request):
     """Handle requests from the client."""
     command = request.get('command')
@@ -49,6 +57,10 @@ def handle_request(request):
         deleted_fact = delete_fact(index)
         return deleted_fact if deleted_fact else "Invalid index."
 
+    elif command == "clear":
+        clear_facts()
+        return "Facts cleared."
+
     return "Unknown command."
 
 def main():
@@ -56,7 +68,7 @@ def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5555")  # Bind to port 5555
-    print("Server ready to receive at port 5555...")
+    print("Fact saver service ready to receive at port 5555...")
 
     # Initialize facts file
     initialize_facts_file()
@@ -64,11 +76,20 @@ def main():
     while True:
         # Wait for the next request from the client
         request = socket.recv_json()
-        print("Received request:", request)
+        print("Fact saver received request:", request)
+
+        # Quit if request is to quit
+        if request.get('command') == 'quit':
+            break
 
         # Handle the request and send the response back to the client
         response = handle_request(request)
         socket.send_json(response)
+        print("-------------------------------------------\n")
+        print("Fact saver service ready to receive at port 5555...")
 
+    # exit the server program
+    context.destroy()
+    
 if __name__ == "__main__":
     main()

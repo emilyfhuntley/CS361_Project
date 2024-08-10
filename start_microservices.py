@@ -24,7 +24,8 @@ if __name__ == "__main__":
     microservices = [
         "fact_generator.py",
         "fact_saver.py",
-        "generate_poem.py"
+        "generate_poem.py",
+        "create_image.py"
     ]
 
     processes = []
